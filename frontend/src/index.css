@@ -61,6 +61,7 @@ input, textarea {
   font-size: 1em;
   font-family: inherit;
   resize: none;
+  line-height: 2;
 }
 
 h2 {
