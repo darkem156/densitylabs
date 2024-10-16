@@ -91,7 +91,7 @@ export default function Comments() {
           <input value={email} onChange={(e) => dispatch({ type: "setEmail", payload: e.target.value })} type="email" placeholder="Email" />
           <textarea value={comment} onChange={(e) => dispatch({ type: "setComment", payload: e.target.value })} placeholder="Add a comment ..." />
         </div>
-        <button onClick={() => id == 0 || fatherComment.id != 0 ? createComment() : editComment() }>Comment</button>
+        <button onClick={() => id == -1 || fatherComment.id != -1 ? createComment() : editComment() }>Comment</button>
       </div>
       <div style={
         {
