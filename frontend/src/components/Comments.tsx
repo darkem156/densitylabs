@@ -70,7 +70,7 @@ export default function Comments() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    if(id == -1 || fatherComment.id != 0) createComment()
+    if(id == -1 || fatherComment.id != -1) createComment()
     else editComment()
   }
 
