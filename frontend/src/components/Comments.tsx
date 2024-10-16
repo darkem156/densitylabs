@@ -1,4 +1,4 @@
-import { useEffect, useReducer, useState } from "react"
+import { FormEvent, useEffect, useReducer, useState } from "react"
 import CommentComponent, { Comment } from './Comment'
 import commentReducer, { emptyComment } from "../utils/commentReducer"
 
@@ -38,6 +38,7 @@ export default function Comments() {
         const father = allComments.get(comment.fatherCommentId)
         father?.children.push(comment)
         if(father) allComments.set(comment.fatherCommentId, father)
+        else allComments.set(comment.id, {...comment, children: [], fatherCommentId: 0, fatherComment: emptyComment})
       }
       else allComments.set(comment.id, {...comment, children: []})
     })
@@ -67,6 +68,12 @@ export default function Comments() {
     commentDispatch: dispatch
   }
 
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    if(id == -1 || fatherComment.id != 0) createComment()
+    else editComment()
+  }
+
   return (
     <div style={
       {
@@ -74,7 +81,7 @@ export default function Comments() {
         padding: '10px'
       }
     }>
-      <div>
+      <form onSubmit={(e) => handleSubmit(e)}>
         <h2>Leave comments</h2>
         <div className="comment-wrapper">
           {id == -1 ? <></> : <div>
@@ -91,8 +98,8 @@ export default function Comments() {
           <input value={email} onChange={(e) => dispatch({ type: "setEmail", payload: e.target.value })} type="email" placeholder="Email" />
           <textarea value={comment} onChange={(e) => dispatch({ type: "setComment", payload: e.target.value })} placeholder="Add a comment ..." />
         </div>
-        <button onClick={() => id == -1 || fatherComment.id != -1 ? createComment() : editComment() }>Comment</button>
-      </div>
+        <button type="submit">Comment</button>
+      </form>
       <div style={
         {
           display: 'flex',
